@@ -2,7 +2,8 @@ import { LoginForm } from "@/components/LoginForm";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function Home() {
+export default async function Home() {
+
   return (
     <>
       <div className="h-24 shadow">
@@ -26,6 +27,9 @@ export default function Home() {
       <div className="py-10 w-full">
         <div className="max-w-7xl w-full mx-auto">
           <h2 className="text-3xl font-bold">Home</h2>
+          <pre>
+          </pre>
+
         </div>
       </div>
     </>

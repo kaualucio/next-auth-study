@@ -1,15 +1,45 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useState, FormEvent } from 'react'
+import { gql, useMutation } from '@apollo/client';
+
+const mutation = gql`
+  mutation Login($email: String!, $password: String!) {
+    login(email: $email, password: $password) {
+      access_token
+      refresh_token
+      user {
+        id
+        name
+        type_user
+      }
+    }
+  }
+`
 
 export const LoginForm = () => {
+  const [loginMutation, { data, loading, error }] = useMutation(mutation);
   const [loginData, setLoginData] = useState({
     email: '',
     password: ''
   })
 
 
+  async function login(e: FormEvent) {
+    e.preventDefault()
+    await loginMutation({
+      variables: {
+        email: loginData.email,
+        password: loginData.password
+      }
+    })
+  }
+
+  if (loading) return 'Submitting...';
+  if (error) return `Submission error! ${error.message}`;
+  console.log(data)
+
   return (
-    <form className="space-y-6" action="#" method="POST">
+    <form onSubmit={(e) => login(e)} className="space-y-6">
       <div>
         <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
           Email address
